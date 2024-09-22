@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recursive Bubble Sort Visualization</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px;
+        }
+        #animationContainer {
+            display: flex;
+            margin-top: 20px;
+        }
+        .bar {
+            width: 20px;
+            margin: 0 2px;
+            background-color: blue;
+            display: inline-block;
+        }
+        input {
+            margin-bottom: 10px;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Recursive Bubble Sort Visualization</h1>
+    <input type="text" id="arrayInput" placeholder="Enter numbers separated by commas">
+    <button onclick="startSorting()">Sort</button>
+    <h3>Sorted Array:</h3>
+    <p id="sortedArray"></p>
+    <div id="animationContainer"></div>
+
+    <script>
+        function recursiveBubbleSort(arr, n) {
+            // Base case
+            if (n == 1) return arr;
+
+            // Perform one pass of bubble sort
+            for (let i = 0; i < n - 1; i++) {
+                if (arr[i] > arr[i + 1]) {
+                    [arr[i], arr[i + 1]] = [arr[i + 1], arr[i]]; // Swap
+                }
+                animateBars(arr); // Animate after each comparison
+            }
+
+            // Recursive call for the remaining elements
+            return recursiveBubbleSort(arr, n - 1);
+        }
+
+        function startSorting() {
+            let input = document.getElementById("arrayInput").value;
+            let arr = input.split(',').map(Number);
+            animateBars(arr); // Initial animation setup
+            let sortedArray = recursiveBubbleSort(arr, arr.length);
+            document.getElementById("sortedArray").innerText = sortedArray.join(', ');
+        }
+
+        function animateBars(arr) {
+            const container = document.getElementById('animationContainer');
+            container.innerHTML = ''; // Clear previous bars
+
+            arr.forEach(value => {
+                const bar = document.createElement('div');
+                bar.className = 'bar';
+                bar.style.height = value * 10 + 'px'; // Scale height for visibility
+                container.appendChild(bar);
+            });
+        }
+    </script>
+</body>
+</html>
